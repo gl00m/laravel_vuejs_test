@@ -10,7 +10,8 @@ use Illuminate\Queue\SerializesModels;
 use Log;
 
 use App\Temperature;
-use App\Events\NewTemp;
+
+use App\Option;
 
 class GenerateData implements ShouldQueue
 {
@@ -23,7 +24,6 @@ class GenerateData implements ShouldQueue
      */
     public function __construct()
     {
-        //
     }
 
     /**
@@ -33,11 +33,13 @@ class GenerateData implements ShouldQueue
      */
     public function handle()
     {
+        if (Option::getGen()) {
             $temp = new Temperature();
             $temp->degree = rand(0, 30);
             $temp->save();
-            event(new NewTemp($temp->degree));
-            sleep(rand(1, 3));
-            $this->dispatch();
+            $this->dispatch()->delay(now()->addSeconds(rand(1, 3)));
+        }
+
+
     }
 }

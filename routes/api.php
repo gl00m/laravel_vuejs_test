@@ -18,4 +18,5 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 });
 
 Route::get('start', 'Api\TemperatureController@start');
+Route::get('stop', 'Api\TemperatureController@stop');
 Route::get('data', 'Api\TemperatureController@getData');
